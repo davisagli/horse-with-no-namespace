@@ -1,4 +1,4 @@
-# Horse with no namespace
+# 🐎 Horse with no namespace
 
 [![PyPI - Version](https://img.shields.io/pypi/v/horse-with-no-namespace.svg)](https://pypi.org/project/horse-with-no-namespace)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/horse-with-no-namespace.svg)](https://pypi.org/project/horse-with-no-namespace)
