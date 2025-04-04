@@ -1,0 +1,39 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "horse-with-no-namespace"
+dynamic = ["version"]
+description = ''
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+keywords = []
+authors = [
+  { name = "David Glick", email = "david@glicksoftware.com" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = []
+
+[project.urls]
+Documentation = "https://github.com/davisagli/horse-with-no-namespace#readme"
+Issues = "https://github.com/davisagli/horse-with-no-namespace/issues"
+Source = "https://github.com/davisagli/horse-with-no-namespace"
+
+[tool.hatch.build.targets.wheel.force-include]
+"src/~horse_with_no_namespace.pth" = "~horse_with_no_namespace.pth"
+
+[tool.hatch.version]
+path = "src/horse_with_no_namespace/__about__.py"

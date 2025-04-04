@@ -1,0 +1,1 @@
+import horse_with_no_namespace; horse_with_no_namespace.apply()
