@@ -42,10 +42,16 @@ def apply():
         # to update __path__ using pkgutil.extend_path instead
         def declare_namespace(packageName):
             parent_locals = sys._getframe(1).f_locals
+
+            if "__path__" not in parent_locals:
+                # Fallback to what pkg_resources does
+                return orig_declare_namespace(packageName)
+
             parent_locals["__path__"] = pkgutil.extend_path(
                 parent_locals["__path__"], packageName
             )
 
+        orig_declare_namespace = pkg_resources.declare_namespace
         pkg_resources.declare_namespace = declare_namespace
 
     # Remove existing namespace package modules that were already created
