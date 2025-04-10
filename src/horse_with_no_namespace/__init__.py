@@ -43,7 +43,7 @@ def apply():
         def declare_namespace(packageName):
             parent_locals = sys._getframe(1).f_locals
             parent_locals["__path__"] = pkgutil.extend_path(
-                parent_locals["__path__"], packageName
+                parent_locals.get("__path__", ""), packageName
             )
 
         pkg_resources.declare_namespace = declare_namespace
