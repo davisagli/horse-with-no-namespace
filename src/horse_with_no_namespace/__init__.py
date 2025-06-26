@@ -33,6 +33,8 @@ def apply():
         logged = True
 
     # Only patch pkg_resources if it is installed...
+    # (To do: at some point pkg_resources will be removed from setuptools.
+    # Then we might have to add our own fake module.)
     try:
         import pkg_resources
     except ImportError:
@@ -42,9 +44,12 @@ def apply():
         # to update __path__ using pkgutil.extend_path instead
         def declare_namespace(packageName):
             parent_locals = sys._getframe(1).f_locals
-            parent_locals["__path__"] = pkgutil.extend_path(
-                parent_locals["__path__"], packageName
-            )
+            # Sometimes declare_namespace is called from pkg_resources itself;
+            # then there is no __path__ which needs to be updated.
+            if "__path__" in parent_locals:
+                parent_locals["__path__"] = pkgutil.extend_path(
+                    parent_locals["__path__"], packageName
+                )
 
         pkg_resources.declare_namespace = declare_namespace
 
