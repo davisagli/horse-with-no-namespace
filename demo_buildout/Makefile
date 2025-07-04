@@ -1,13 +1,17 @@
 .PHONY: all
-all: bin/py
-	bin/py test.py
+all: bin/instance
+	bin/instance run test.py
 
-bin/py: .venv/bin/buildout
-	.venv/bin/buildout
+bin/instance: .venv/bin/buildout
+	.venv/bin/buildout -D
 
 .venv/bin/pip:
-	python3 -m venv .venv
+	uv venv --seed .venv
 
 .venv/bin/buildout: .venv/bin/pip
-	.venv/bin/pip install -r https://dist.plone.org/release/6.1-latest/requirements.txt
+	.venv/bin/pip install -r requirements.txt
 	.venv/bin/pip install -e ..
+
+.PHONY: clean
+clean:
+	rm -rf .installed.cfg .venv bin develop-eggs eggs parts var
