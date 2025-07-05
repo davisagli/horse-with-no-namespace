@@ -38,7 +38,10 @@ def apply():
     # by other .pth files, possibly with an incomplete __path__
     for name, module in list(sys.modules.items()):
         loader = getattr(module, "__loader__", None)
-        if loader and loader.__class__.__name__ == "NamespaceLoader":
+        if loader and loader.__class__.__name__ in (
+            "NamespaceLoader",
+            "_NamespaceLoader",
+        ):
             del sys.modules[name]
 
     # We want to patch pkg_resources.declare_namespace,
