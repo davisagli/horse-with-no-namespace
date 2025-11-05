@@ -1,6 +1,8 @@
 # Changelog
 
 - 2025-11-05:
+  Make the `pkg_resources.declare_namespace` patch work even if there's no longer a real `pkg_resources` module.
+- 2025-11-05:
   Fix handling of namespaces that have an `__init__.py` installed.
   Now we read the namespaces from `*.dist-info/namespace_packages.txt` instead of looking for modules that were loaded with NamespaceLoader.
   Also added logging of which namespaces were processed.
