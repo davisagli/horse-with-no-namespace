@@ -47,10 +47,21 @@ def _lazy_load_pkg_resources():
     # This is called when something from pkg_resources is accessed.
     # We import it here to avoid importing it at the top of the file,
     # which would cause a circular import.
-    del sys.modules["pkg_resources"]
-    import pkg_resources
-
-    pkg_resources.declare_namespace = declare_namespace
+    # But let's be careful in case the real pkg_resources isn't available...
+    existing_pkg_resources = sys.modules["pkg_resources"]
+    try:
+        del sys.modules["pkg_resources"]
+        import pkg_resources
+    except ModuleNotFoundError:
+        # There is no actual pkg_resources module
+        # (maybe it's a new version of setuptools that removed it).
+        # So keep this stub and stop trying to replace it.
+        pkg_resources = sys.modules["pkg_resources"] = existing_pkg_resources
+        del globals()["__getattr__"]
+        del globals()["__dir__"]
+    else:
+        # Patch the real pkg_resources to use our declare_namespace function.
+        pkg_resources.declare_namespace = declare_namespace
     _pkg_resources = pkg_resources
 
 
