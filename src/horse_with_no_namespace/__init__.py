@@ -13,6 +13,7 @@
 # and that hasn't changed recently.)
 
 import importlib
+import pathlib
 import sys
 
 logged = False
@@ -21,27 +22,34 @@ RESET = "\033[0m"
 
 
 def apply():
+    global logged
+
+    # Collect namespace packages from **/namespace_packages.txt
+    target = pathlib.Path(__file__).parent.parent
+    namespaces_packages = set()
+    for path in target.glob("*.dist-info/namespace_packages.txt"):
+        for line in path.read_text().splitlines():
+            namespace_package = line.strip()
+            if namespace_package:
+                namespaces_packages.add(namespace_package)
+
     # The Python site module can call us more than once.
     # We need to actually do this the last time,
     # But we only want to show the notice once.
-    global logged
     if not logged:
         print(
             f"🐎 This Python ({BOLD}{sys.executable}{RESET}) uses "
-            "horse-with-no-namespace to make pkg_resources namespace "
-            "packages compatible with PEP 420 namespace packages.",
+            "horse-with-no-namespace to make the following pkg_resources namespace "
+            "packages compatible with PEP 420 namespace packages:\n  "
+            f"{', '.join(sorted(namespaces_packages))}\n",
             file=sys.stderr,
         )
         logged = True
 
-    # Remove existing namespace package modules that were already created
+    # Remove existing namespace package modules that were already mangled
     # by other .pth files, possibly with an incomplete __path__
-    for name, module in list(sys.modules.items()):
-        loader = getattr(module, "__loader__", None)
-        if loader and loader.__class__.__name__ in (
-            "NamespaceLoader",
-            "_NamespaceLoader",
-        ):
+    for name in namespaces_packages:
+        if name in sys.modules:
             del sys.modules[name]
 
     # We want to patch pkg_resources.declare_namespace,
