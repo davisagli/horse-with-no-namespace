@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2025 David Glick <david@glicksoftware.com>
+# SPDX-FileCopyrightText: 2026 David Glick <david@glicksoftware.com>
 #
 # SPDX-License-Identifier: MIT
 
