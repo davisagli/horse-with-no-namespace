@@ -1,5 +1,7 @@
 # Changelog
 
+- 2026-02-02:
+  Log the presence of `horse-with-no-namespace` using the Python `warnings` module.
 - 2025-11-05:
   Make the `pkg_resources.declare_namespace` patch work even if there's no longer a real `pkg_resources` module.
 - 2025-11-05:

@@ -29,6 +29,10 @@ The goal of `horse-with-no-namespace` is to provide a temporary solution that ca
 This approach can also help with packages installed using `zc.buildout`.
 However, `horse-with-no-namespace` itself must not be installed using Buildout, but should be installed using pip into the same virtualenv where `zc.buildout` is installed. If `horse-with-no-namespace` is installed using Buildout, then its `.pth` file will not be loaded, since it is not in the `site-packages` folder.
 
+## How can I suppress the log line that is emitted to stderr on startup?
+
+Set the environment variable `PYTHONWARNINGS=ignore:::horse_with_no_namespace`.
+
 ## Installation
 
 ```console
