@@ -35,7 +35,8 @@ def apply():
         f"🐎 This Python ({BOLD}{sys.executable}{RESET}) uses "
         "horse-with-no-namespace to make the following pkg_resources namespace "
         "packages compatible with PEP 420 namespace packages:\n  "
-        f"{', '.join(sorted(namespaces_packages))}\n"
+        f"{', '.join(sorted(namespaces_packages))}",
+        stacklevel=2,
     )
 
     # Remove existing namespace package modules that were already mangled
